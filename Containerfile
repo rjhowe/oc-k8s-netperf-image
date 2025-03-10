@@ -36,3 +36,6 @@ COPY super-netperf /usr/bin/super-netperf
 RUN curl -L https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest-4.18/openshift-client-linux.tar.gz | tar xz -C /bin/ && \
     curl -L https://github.com/cloud-bulldozer/k8s-netperf/releases/download/v0.1.27/k8s-netperf_Linux_v0.1.27_x86_64.tar.gz | tar xz -C /bin/
 
+
+COPY netperf.yml ./
+RUN rm afs -rf 
