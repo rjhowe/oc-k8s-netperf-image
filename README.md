@@ -31,21 +31,21 @@ $ oc label nodes node-name netperf=client
 $ oc label nodes node-name netperf=server
 ```
 
-Run k8s-netperf from an image 
+Run k8s-netperf with must-gather: 
 ```
-$ podman run -it --rm --entrypoint /bin/k8s-netperf -v ~/.kube/config:/config:z -e KUBECONFIG=/config quay.io/rjhowe/oc-k8s-netperf:latest --all  --iperf --netperf
+# oc adm must-gather --image quay.io/rjhowe/oc-k8s-netperf:latest -- k8s-netperf --all  --iperf --netperf
 ```
 
 
 ### Sample test configuration 
 ```
-$ cat ./netperf.yml
+$ cat ./test.yml
 
 tests :
   - TCPStream1:       
     parallelism: 1     
     profile: "TCP_STREAM" 
-    duration: 10          
+    duration: 30          
     samples: 3          
     messagesize: 1024     
     burst: 1               
@@ -53,18 +53,25 @@ tests :
   - TCPStream2:           
     parallelism: 1     
     profile: "TCP_STREAM" 
-    duration: 10           
+    duration: 30           
     samples: 3            
     messagesize: 4096   
-    burst: 3                                                                                                                                                       
-    service: false
+    burst: 3                                                                                                                      service: false
 ```
+
+
+Run k8s-netperf from an image mounting your own config. 
+```
+$ podman run -it --rm --entrypoint /bin/k8s-netperf -v ./test:/test.yml:z -v ~/.kube/config:/config:z -e KUBECONFIG=/config quay.io/rjhowe/oc-k8s-netperf:latest --config /test.yml --all  --netperf
+```
+
 
 Run test locally if binary is installed
 ``` 
-$ k8s-netperf --config ./test.yml  --all  --iperf --netperf 
+$ k8s-netperf --config ./test.yml  --all --netperf 
 ```
 
+* `k8s-netperf` will clean up all objects it creatd after done running
 
 
 ### Output
