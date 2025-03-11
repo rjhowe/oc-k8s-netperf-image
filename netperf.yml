@@ -3,9 +3,8 @@ tests :
     parallelism: 1
     profile: "TCP_STREAM"
     duration: 10
-    samples: 1
+    samples: 3
     messagesize: 1024
-    burst: 1
     service: false
   - TCPStream2:
     parallelism: 1
@@ -13,5 +12,19 @@ tests :
     duration: 10
     samples: 3
     messagesize: 4096
-    burst: 3
     service: false
+  - TCPStream3:
+    parallelism: 1
+    profile: "TCP_STREAM"
+    duration: 10
+    samples: 3
+    burst: 3
+    messagesize: 1024
+    service: false
+  - UDPStream:
+    parallelism: 1
+    profile: "UDP_STREAM"
+    duration: 10
+    samples: 3
+    messagesize: 1024
+
