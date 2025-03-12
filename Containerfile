@@ -1,15 +1,13 @@
-# RHEL_VERSION defined in Makefile
-ARG RHEL_VERSION
 FROM registry.access.redhat.com/ubi9:latest
 
 COPY appstream.repo /etc/yum.repos.d/centos9-appstream.repo
 
 COPY netperf.diff /tmp/netperf.diff
-RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && dnf clean all
+RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && dnf clean all
 RUN dnf install -y uperf && dnf clean all
 
 RUN dnf install -y --nodocs make automake --enablerepo=centos9 --allowerasing  && \
-    dnf install -y --nodocs gcc git bc lksctp-tools-devel texinfo --enablerepo=*
+    dnf install -y --nodocs gcc git bc lksctp-tools-devel texinfo rsync --enablerepo=*
 
 RUN git clone https://github.com/HewlettPackard/netperf
 WORKDIR netperf
